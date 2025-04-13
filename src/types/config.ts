@@ -59,9 +59,6 @@ export const defaultConfig: Required<PostchiConfig> = {
   strategy: 'single-file',
 };
 
-/**
- * Zod schema for validating the configuration
- */
 export const ConfigSchema = z
   .object({
     input: z.string().optional(),
@@ -78,26 +75,3 @@ export const ConfigSchema = z
       path: ['input'],
     },
   );
-
-/**
- * Define configuration helper function with validation
- */
-export function defineConfig(config: PostchiConfig): PostchiConfig {
-  try {
-    // Validate the configuration using Zod
-    const validatedConfig = ConfigSchema.parse(config);
-    return validatedConfig;
-  } catch (error: unknown) {
-    if (error instanceof z.ZodError) {
-      const formattedErrors = error.errors
-        .map((err: z.ZodIssue) => {
-          const path = err.path.join('.');
-          return `  - ${path ? path + ': ' : ''}${err.message}`;
-        })
-        .join('\n');
-
-      throw new Error(`Invalid configuration:\n${formattedErrors}`);
-    }
-    throw error;
-  }
-}

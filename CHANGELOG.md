@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.0] - Initial Release
+## [0.0.1] - Initial Release
 
 ### Features
 
@@ -11,4 +11,4 @@ All notable changes to this project will be documented in this file.
 - Support for fetch and axios request handlers
 - Support for single-file or multi-file output
 - Support for loading configuration from file or package.json
-- CLI tool with multiple options 
+- CLI tool with multiple options

@@ -1,8 +1,8 @@
-import fs from 'fs';
-import path from 'path';
+import path from 'node:path';
+import fs from 'fs-extra';
 import pc from 'picocolors';
-import { PostchiConfig } from './types/config.js';
-import { PostmanCollection, PostmanItem, PostmanRequest } from './types/postman.js';
+import type { PostchiConfig } from './types/config';
+import type { PostmanCollection, PostmanItem, PostmanRequest } from './types/postman';
 
 export class ApiGenerator {
   private collection: PostmanCollection;
@@ -255,9 +255,7 @@ export class ApiGenerator {
     const endpointCount = functions.length;
     console.info(
       pc.green(
-        `✨ Generated ${endpointCount} API ${
-          endpointCount === 1 ? 'endpoint' : 'endpoints'
-        } successfully!`,
+        `✨ Generated ${endpointCount} API ${endpointCount === 1 ? 'endpoint' : 'endpoints'} successfully!`,
       ),
     );
   }

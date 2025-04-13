@@ -1,11 +1,10 @@
-import fs from 'fs';
-import path from 'path';
+import path from 'node:path';
+import { bundleRequire } from 'bundle-require';
+import fs from 'fs-extra';
+import JoyCon from 'joycon';
 import pc from 'picocolors';
-import { PostchiConfig, defaultConfig } from './types/config.js';
+import { type PostchiConfig, defaultConfig } from './types/config';
 
-/**
- * Possible configuration file names
- */
 const CONFIG_FILE_NAMES = [
   'postchi.config.ts',
   'postchi.config.js',
@@ -14,76 +13,30 @@ const CONFIG_FILE_NAMES = [
   'postchi.config.cjs',
 ];
 
-/**
- * Find the configuration file in the current directory
- * @returns Path to the configuration file or null if not found
- */
-export function findConfigFile(directory: string = process.cwd()): string | null {
-  for (const fileName of CONFIG_FILE_NAMES) {
-    const filePath = path.join(directory, fileName);
-    if (fs.existsSync(filePath)) {
-      return filePath;
-    }
-  }
-  return null;
-}
+const joycon = new JoyCon();
 
-/**
- * Load the configuration from a file
- * @param configFilePath Path to the configuration file
- * @returns Loaded configuration
- */
-export async function loadConfigFromFile(configFilePath: string): Promise<PostchiConfig> {
-  try {
-    // For TypeScript files, we need to use ts-node to require them
-    if (configFilePath.endsWith('.ts') || configFilePath.endsWith('.mts')) {
-      // Use dynamic import for ESM compatibility
-      const { register } = await import('ts-node');
-      register({
-        transpileOnly: true,
-        compilerOptions: {
-          module: 'commonjs',
-        },
-      });
-    }
-
-    // Try to import the configuration file
-    const configModule = await import(configFilePath);
-    const config = configModule.default || {};
-
-    return config;
-  } catch (error) {
-    console.error(`Error loading configuration from ${configFilePath}:`, error);
-    return {};
-  }
-}
-
-/**
- * Load configuration from postchi.config.js or package.json
- * and merge with CLI options
- *
- * @param cliConfig Configuration from CLI arguments
- * @returns Merged configuration
- */
 export async function loadConfig(
   cliConfig: Partial<PostchiConfig>,
 ): Promise<Required<PostchiConfig>> {
-  // Start with default config
   let config = { ...defaultConfig };
 
-  // Try to load config from postchi.config.js
-  const configPath = path.resolve(process.cwd(), 'postchi.config.js');
+  const filepath = await joycon.resolve({
+    files: CONFIG_FILE_NAMES,
+  });
 
-  if (fs.existsSync(configPath)) {
+  if (filepath) {
     try {
-      const fileUrl = new URL(`file://${configPath}`);
-      const userConfig = (await import(fileUrl.href)).default;
-      config = { ...config, ...userConfig };
-      console.info(pc.blue('📝 Using configuration from'), pc.cyan('postchi.config.js'));
+      const bundleDeps = await bundleRequire({ filepath });
+
+      const userConfig = bundleDeps.mod.default as Partial<PostchiConfig>;
+
+      config = { ...config, ...userConfig } satisfies Required<PostchiConfig>;
+
+      console.info(pc.blue('📝 Using configuration from'), pc.cyan(filepath));
     } catch (error: unknown) {
       console.warn(
         pc.yellow('⚠️ Could not load config from'),
-        pc.cyan(configPath),
+        pc.cyan(filepath),
         pc.yellow(':'),
         error instanceof Error ? error.message : String(error),
       );
