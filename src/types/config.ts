@@ -1,19 +1,19 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 /**
  * Available programming languages for code generation
  */
-export type Language = "javascript" | "typescript";
+export type Language = 'javascript' | 'typescript';
 
 /**
  * Available HTTP request handlers
  */
-export type RequestHandler = "fetch" | "axios";
+export type RequestHandler = 'fetch' | 'axios';
 
 /**
  * Output file strategy
  */
-export type Strategy = "single-file" | "multi-file";
+export type Strategy = 'single-file' | 'multi-file';
 
 /**
  * Configuration interface for Postchi
@@ -52,11 +52,11 @@ export interface PostchiConfig {
  * Default configuration
  */
 export const defaultConfig: Required<PostchiConfig> = {
-  input: "",
-  output: "./src/api",
-  language: "typescript",
-  requestHandler: "fetch",
-  strategy: "single-file",
+  input: '',
+  output: './src/api',
+  language: 'typescript',
+  requestHandler: 'fetch',
+  strategy: 'single-file',
 };
 
 /**
@@ -65,16 +65,19 @@ export const defaultConfig: Required<PostchiConfig> = {
 export const ConfigSchema = z
   .object({
     input: z.string().optional(),
-    output: z.string().optional().default("./src/api"),
-    language: z.enum(["javascript", "typescript"]).optional().default("typescript"),
-    requestHandler: z.enum(["fetch", "axios"]).optional(),
-    strategy: z.enum(["single-file", "multi-file"]).optional(),
+    output: z.string().optional().default('./src/api'),
+    language: z.enum(['javascript', 'typescript']).optional().default('typescript'),
+    requestHandler: z.enum(['fetch', 'axios']).optional(),
+    strategy: z.enum(['single-file', 'multi-file']).optional(),
   })
   .strict()
-  .refine((data: Partial<PostchiConfig>) => data.input !== undefined || process.env.NODE_ENV === "test", {
-    message: "Input file path is required. You must specify a Postman collection JSON file.",
-    path: ["input"],
-  });
+  .refine(
+    (data: Partial<PostchiConfig>) => data.input !== undefined || process.env.NODE_ENV === 'test',
+    {
+      message: 'Input file path is required. You must specify a Postman collection JSON file.',
+      path: ['input'],
+    },
+  );
 
 /**
  * Define configuration helper function with validation
@@ -88,10 +91,10 @@ export function defineConfig(config: PostchiConfig): PostchiConfig {
     if (error instanceof z.ZodError) {
       const formattedErrors = error.errors
         .map((err: z.ZodIssue) => {
-          const path = err.path.join(".");
-          return `  - ${path ? path + ": " : ""}${err.message}`;
+          const path = err.path.join('.');
+          return `  - ${path ? path + ': ' : ''}${err.message}`;
         })
-        .join("\n");
+        .join('\n');
 
       throw new Error(`Invalid configuration:\n${formattedErrors}`);
     }
