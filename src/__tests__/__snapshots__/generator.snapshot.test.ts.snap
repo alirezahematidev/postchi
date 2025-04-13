@@ -1,0 +1,408 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApiGenerator Snapshots should generate different output based on configuration: axios-api-client 1`] = `
+"// Generated API client
+// Do not modify this file manually
+
+import axios from 'axios';
+
+export interface HttpsApiExampleComUsersUserIdRequest {
+}
+
+
+export interface HttpsApiExampleComUsersRequest {
+  body:   {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "age": 30
+  };
+}
+
+
+export interface HttpsApiExampleComProductsCategoryElectronicsLimit10Request {
+  category: string;
+  limit: string;
+}
+
+
+export async function get_user(): Promise<Response> {
+  const url = new URL('https://api.example.com/users/{{userId}}');
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+  });
+  return axios({
+    method: 'get',
+    url: url.toString(),
+    headers: Object.fromEntries(headers.entries()),
+  });
+}
+
+
+export async function create_user(body: HttpsApiExampleComUsersRequest['body']): Promise<Response> {
+  const url = new URL('https://api.example.com/users');
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+  });
+  return axios({
+    method: 'post',
+    url: url.toString(),
+    headers: Object.fromEntries(headers.entries()),
+    data: body,
+  });
+}
+
+
+export async function search_products(params: HttpsApiExampleComProductsCategoryElectronicsLimit10Request): Promise<Response> {
+  const url = new URL('https://api.example.com/products?category=electronics&limit=10');
+  Object.entries(params).forEach(([key, value]) => {
+    url.searchParams.append(key, value);
+  });
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+  });
+  return axios({
+    method: 'get',
+    url: url.toString(),
+    headers: Object.fromEntries(headers.entries()),
+  });
+}
+
+"
+`;
+
+exports[`ApiGenerator Snapshots should generate different output based on configuration: javascript-api-client 1`] = `
+"// Generated API client
+// Do not modify this file manually
+
+
+/**
+ * @typedef {Object} HttpsApiExampleComUsersUserIdRequest
+ */
+
+
+/**
+ * @typedef {Object} HttpsApiExampleComUsersRequest
+ * @property {Object} body
+ * @property {string} body.name
+ * @property {string} body.email
+ * @property {number} body.age
+ */
+
+
+/**
+ * @typedef {Object} HttpsApiExampleComProductsCategoryElectronicsLimit10Request
+ * @property {string} category
+ * @property {string} limit
+ */
+
+
+/**
+ * @returns {Promise<Response>}
+ */
+export async function get_user() {
+  const url = new URL('https://api.example.com/users/{{userId}}');
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+  });
+  return fetch(url.toString(), {
+    method: 'GET',
+    headers,
+  });
+}
+
+
+/**
+ * @param {Object} body
+ * @returns {Promise<Response>}
+ */
+export async function create_user(body) {
+  const url = new URL('https://api.example.com/users');
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+  });
+  return fetch(url.toString(), {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(body),
+  });
+}
+
+
+/**
+ * @param {HttpsApiExampleComProductsCategoryElectronicsLimit10Request} params
+ * @returns {Promise<Response>}
+ */
+export async function search_products(params) {
+  const url = new URL('https://api.example.com/products?category=electronics&limit=10');
+  Object.entries(params).forEach(([key, value]) => {
+    url.searchParams.append(key, value);
+  });
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+  });
+  return fetch(url.toString(), {
+    method: 'GET',
+    headers,
+  });
+}
+
+"
+`;
+
+exports[`ApiGenerator Snapshots should generate different output based on configuration: multi-file-api-functions 1`] = `
+"// Generated API functions
+// Do not modify this file manually
+
+
+import { HttpsApiExampleComUsersUserIdRequest, HttpsApiExampleComUsersRequest, HttpsApiExampleComProductsCategoryElectronicsLimit10Request } from './api-types';
+
+export async function get_user(): Promise<Response> {
+  const url = new URL('https://api.example.com/users/{{userId}}');
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+  });
+  return fetch(url.toString(), {
+    method: 'GET',
+    headers,
+  });
+}
+
+
+export async function create_user(body: HttpsApiExampleComUsersRequest['body']): Promise<Response> {
+  const url = new URL('https://api.example.com/users');
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+  });
+  return fetch(url.toString(), {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(body),
+  });
+}
+
+
+export async function search_products(params: HttpsApiExampleComProductsCategoryElectronicsLimit10Request): Promise<Response> {
+  const url = new URL('https://api.example.com/products?category=electronics&limit=10');
+  Object.entries(params).forEach(([key, value]) => {
+    url.searchParams.append(key, value);
+  });
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+  });
+  return fetch(url.toString(), {
+    method: 'GET',
+    headers,
+  });
+}
+
+"
+`;
+
+exports[`ApiGenerator Snapshots should generate different output based on configuration: multi-file-api-types 1`] = `
+"// Generated API types
+// Do not modify this file manually
+
+export interface HttpsApiExampleComUsersUserIdRequest {
+}
+
+
+export interface HttpsApiExampleComUsersRequest {
+  body:   {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "age": 30
+  };
+}
+
+
+export interface HttpsApiExampleComProductsCategoryElectronicsLimit10Request {
+  category: string;
+  limit: string;
+}
+
+"
+`;
+
+exports[`ApiGenerator Snapshots should generate expected API client for collection with query parameters: query-params-api-client 1`] = `
+"// Generated API client
+// Do not modify this file manually
+
+
+export interface HttpsApiExampleComUsersPage1Limit10SortNameOrderAscRequest {
+  page: string;
+  limit: string;
+  sort: string;
+  order: string;
+}
+
+
+export async function list_users(params: HttpsApiExampleComUsersPage1Limit10SortNameOrderAscRequest): Promise<Response> {
+  const url = new URL('https://api.example.com/users?page=1&limit=10&sort=name&order=asc');
+  Object.entries(params).forEach(([key, value]) => {
+    url.searchParams.append(key, value);
+  });
+  const headers = new Headers({
+  });
+  return fetch(url.toString(), {
+    method: 'GET',
+    headers,
+  });
+}
+
+"
+`;
+
+exports[`ApiGenerator Snapshots should generate expected API client for complex collection: complex-collection-api-client 1`] = `
+"// Generated API client
+// Do not modify this file manually
+
+
+export interface HttpsApiExampleComAuthLoginRequest {
+  body:   {
+    "email": "user@example.com",
+    "password": "password123",
+    "rememberMe": true
+  };
+}
+
+
+export interface HttpsApiExampleComAuthRefreshRequest {
+}
+
+
+export async function login(body: HttpsApiExampleComAuthLoginRequest['body']): Promise<Response> {
+  const url = new URL('https://api.example.com/auth/login');
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+  });
+  return fetch(url.toString(), {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(body),
+  });
+}
+
+
+export async function refresh_token(): Promise<Response> {
+  const url = new URL('https://api.example.com/auth/refresh');
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer {{refreshToken}}',
+  });
+  return fetch(url.toString(), {
+    method: 'POST',
+    headers,
+  });
+}
+
+"
+`;
+
+exports[`ApiGenerator Snapshots should generate expected API client for different HTTP methods: http-methods-api-client 1`] = `
+"// Generated API client
+// Do not modify this file manually
+
+
+export interface HttpsApiExampleComResources123Request {
+}
+
+
+export interface HttpsApiExampleComResourcesRequest {
+  body:   {
+    "name": "New Resource",
+    "description": "This is a new resource"
+  };
+}
+
+
+export async function get_request(): Promise<Response> {
+  const url = new URL('https://api.example.com/resources/123');
+  const headers = new Headers({
+  });
+  return fetch(url.toString(), {
+    method: 'GET',
+    headers,
+  });
+}
+
+
+export async function post_request(body: HttpsApiExampleComResourcesRequest['body']): Promise<Response> {
+  const url = new URL('https://api.example.com/resources');
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+  });
+  return fetch(url.toString(), {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(body),
+  });
+}
+
+"
+`;
+
+exports[`ApiGenerator Snapshots should generate expected API client for sample collection: sample-collection-api-client 1`] = `
+"// Generated API client
+// Do not modify this file manually
+
+
+export interface HttpsApiExampleComUsersUserIdRequest {
+}
+
+
+export interface HttpsApiExampleComUsersRequest {
+  body:   {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "age": 30
+  };
+}
+
+
+export interface HttpsApiExampleComProductsCategoryElectronicsLimit10Request {
+  category: string;
+  limit: string;
+}
+
+
+export async function get_user(): Promise<Response> {
+  const url = new URL('https://api.example.com/users/{{userId}}');
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+  });
+  return fetch(url.toString(), {
+    method: 'GET',
+    headers,
+  });
+}
+
+
+export async function create_user(body: HttpsApiExampleComUsersRequest['body']): Promise<Response> {
+  const url = new URL('https://api.example.com/users');
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+  });
+  return fetch(url.toString(), {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(body),
+  });
+}
+
+
+export async function search_products(params: HttpsApiExampleComProductsCategoryElectronicsLimit10Request): Promise<Response> {
+  const url = new URL('https://api.example.com/products?category=electronics&limit=10');
+  Object.entries(params).forEach(([key, value]) => {
+    url.searchParams.append(key, value);
+  });
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+  });
+  return fetch(url.toString(), {
+    method: 'GET',
+    headers,
+  });
+}
+
+"
+`;

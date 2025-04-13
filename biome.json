@@ -1,0 +1,52 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
+  "organizeImports": {
+    "enabled": true
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUnusedVariables": "error"
+      },
+      "suspicious": {
+        "noConsoleLog": "warn",
+        "noExplicitAny": "warn"
+      },
+      "style": {
+        "useShorthandArrayType": "error",
+        "useTemplate": "off",
+        "noUnusedTemplateLiteral": "off"
+      }
+    }
+  },
+  "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    },
+    "formatter": {
+      "quoteStyle": "single",
+      "trailingComma": "all",
+      "semicolons": "always"
+    }
+  },
+  "files": {
+    "ignore": [
+      "dist/**",
+      "node_modules/**",
+      "coverage/**",
+      ".git/**",
+      "**/*.snap",
+      "**/*.test.ts",
+      "src/__tests__/**",
+      "jest.config.ts"
+    ]
+  }
+}
